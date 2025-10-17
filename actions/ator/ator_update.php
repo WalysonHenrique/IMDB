@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nascimento = $_POST['nascimento'] ?? '';
 
     if (updateAtor($id, $nome, $sobrenome, $sexo, $nacionalidadeID, $nascimento)) {
-        header('Location: ../atores.php?msg=atualizado');
+        header('Location: ../../pages/atores.php?msg=atualizado');
     } else {
-        header('Location: ../atores.php?msg=erro');
+        header('Location: ../../pages/atores.php?msg=erro');
     }
     exit;
 }

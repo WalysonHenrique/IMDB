@@ -19,7 +19,7 @@ function getAtorById($id)
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
-    return $stmt->get_result();
+    return $stmt->get_result()->fetch_assoc();
 }
 
 function createAtor($nome, $sobrenome, $sexo, $nacionalidadeID, $nascimento)
@@ -70,9 +70,4 @@ function deleteAtor($id)
     }
 }
 
-function getAllNacionalidades()
-{
-    global $conn;
-    $query = "SELECT id, nome FROM nacionalidades ORDER BY nome";
-    return $conn->query($query);
-}
+

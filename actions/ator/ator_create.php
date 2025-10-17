@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nascimento = $_POST['nascimento'] ?? '';
 
     if (createAtor($nome, $sobrenome, $sexo, $nacionalidadeID, $nascimento)) {
-        header('Location: ../atores.php?msg=criado');
+        header('Location: ../../pages/atores.php?msg=criado');
     } else {
-        header('Location: ../atores.php?msg=erro');
+        header('Location: ../../pages/atores.php?msg=erro');
     }
     exit;
 }

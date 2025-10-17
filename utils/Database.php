@@ -2,7 +2,7 @@
 
 $DB_SERVER = "localhost";
 $DB_USER = "root";
-$DB_PASSWORD = "root";
+$DB_PASSWORD = "rootroot";
 $DB_DATABASE = "imdb";
 
 $conn = null;

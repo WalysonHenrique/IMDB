@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
+    <link rel="stylesheet" href="../assets/css/reset.css">
 </head>
 
 <body>
@@ -17,16 +17,14 @@
     require_once '../actions/idioma/idioma_functions.php';
     $idiomas = getAllIdiomas();
     ?>
-
-  
-    <div class="container">
+    <div class="container mb-5">
     <h1 class="mt-4">Idiomas</h1>
     <p>Gerencie os idiomas dos filmes aqui.</p>
 
-    <div class="content">
+    <div class="content mt-3">
         <!-- quero usar o new dataTable -->
         <table id="idiomasTable" class="table table-striped">
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
@@ -59,9 +57,18 @@
 
 <?php
 include_once '../partials/footer.php';
+
 ?>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
 <script>
+
+
+
     $(document).ready(function () {
         $('#idiomasTable').DataTable({
             "language": {
