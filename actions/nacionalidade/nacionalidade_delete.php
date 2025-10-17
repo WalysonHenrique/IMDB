@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '/nacionalidade_functions.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $id = $_GET['id'] ?? '';
     if (deleteNacionalidade($id)) {
-        header('Location: ../nacionalidades.php?msg=deletado');
+        header('Location: ../../pages/nacionalidades.php?msg=deletado');
     } else {
-        header('Location: ../nacionalidades.php?msg=erro');
+        header('Location: ../../pages/nacionalidades.php?msg=erro');
     }
     exit;
 }

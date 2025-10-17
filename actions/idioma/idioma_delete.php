@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '/idioma_functions.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $id = $_GET['id'] ?? '';
     if (deleteIdioma($id)) {
-        header('Location: ../idiomas.php?msg=deletado');
+        header('Location: ../../pages/idiomas.php?msg=deletado');
     } else {
-        header('Location: ../idiomas.php?msg=erro');
+        header('Location: ../../pages/idiomas.php?msg=erro');
     }
     exit;
 }

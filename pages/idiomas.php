@@ -13,14 +13,42 @@
 
 <body>
     <?php
+        if(isset($_GET['msg'])){
+            $msg = $_GET['msg'];
+        }else{
+            $msg = '';
+        }
+        
     include_once '../partials/header.php';
     require_once '../actions/idioma/idioma_functions.php';
     $idiomas = getAllIdiomas();
     ?>
+    <?php if($msg == 'criado'): ?>
+        <div class="alert alert-success" role="alert">
+            Idioma criado com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if($msg == 'atualizado'): ?>
+        <div class="alert alert-success" role="alert">
+            Idioma atualizado com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if($msg == 'deletado'): ?>
+        <div class="alert alert-success" role="alert">
+            Idioma deletado com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if($msg == 'erro'): ?>
+        <div class="alert alert-danger" role="alert">
+            Ocorreu um erro ao realizar a operação.
+        </div>
+    <?php endif; ?>
+
+
     <div class="container mb-5">
     <h1 class="mt-4">Idiomas</h1>
     <p>Gerencie os idiomas dos filmes aqui.</p>
-
+    <button class="btn btn-primary mb-3" onclick="window.location.href='adicionar_idioma.php';">Adicionar Idioma</button>
     <div class="content mt-3">
         <!-- quero usar o new dataTable -->
         <table id="idiomasTable" class="table table-striped">
@@ -37,9 +65,9 @@
                         <td><?php echo htmlspecialchars($idioma['id']); ?></td>
                         <td><?php echo htmlspecialchars($idioma['nome']); ?></td>
                         <td>
-                            <a href="editar_idioma.php?id=<?php echo $idioma['id']; ?>"
+                            <a href="atualizar_idioma.php?id=<?php echo $idioma['id']; ?>"
                                 class="btn btn-sm btn-primary">Editar</a>
-                            <a href="deletar_idioma.php?id=<?php echo $idioma['id']; ?>" class="btn btn-sm btn-danger"
+                            <a href="../actions/idioma/idioma_delete.php?id=<?php echo $idioma['id']; ?>" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Tem certeza que deseja deletar este idioma?');">Deletar</a>
                         </td>
                     </tr>

@@ -40,7 +40,7 @@
         <?php endif; ?>
          <?php if($msg == 'erro'): ?>
             <div class="alert alert-danger" role="alert">
-                Ocorreu um erro ao criar o ator.
+                Ocorreu um erro ao .
             </div>
         <?php endif; ?>
 

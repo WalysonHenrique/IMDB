@@ -18,12 +18,45 @@
         include_once '../partials/header.php';
         require_once '../actions/nacionalidade/nacionalidade_functions.php';
         $nacionalidades = getAllNacionalidades();
+
+
+        if(isset($_GET['msg'])){
+            $msg = $_GET['msg'];
+        }else{
+            $msg = '';
+        }
         ?>
+
+
+
+        <?php if($msg == 'criado'): ?>
+            <div class="alert alert-success" role="alert">
+                Nacionalidade criada com sucesso!
+            </div>
+        <?php endif; ?>
+        <?php if($msg == 'atualizado'): ?>
+            <div class="alert alert-success" role="alert">
+                Nacionalidade atualizada com sucesso!
+            </div>
+        <?php endif; ?>
+        <?php if($msg == 'deletado'): ?>
+            <div class="alert alert-success" role="alert">
+                Nacionalidade deletada com sucesso!
+            </div>
+        <?php endif; ?>
+         <?php if($msg == 'erro'): ?>
+            <div class="alert alert-danger" role="alert">
+                Ocorreu um erro ao realizar a operação.
+            </div>
+        <?php endif; ?>
 
     
         <div class="container mb-5">
             <h1 class="mt-4">Nacionalidades</h1>
             <p>Gerencie as nacionalidades dos filmes aqui.</p>
+            <button onclick="location.href='./adicionar_nacionalidade.php'" class="btn btn-primary mb-3">Adicionar Nacionalidade</button>
+
+
 
             <div class="content mt-3">
                 <!-- quero usar o new dataTable -->
@@ -41,9 +74,9 @@
                                 <td><?php echo htmlspecialchars($nacionalidade['id']); ?></td>
                                 <td><?php echo htmlspecialchars($nacionalidade['nome']); ?></td>
                                 <td>
-                                    <a href="editar_nacionalidade.php?id=<?php echo $nacionalidade['id']; ?>"
+                                    <a href="./atualizar_nacionalidade.php?id=<?php echo $nacionalidade['id']; ?>"
                                         class="btn btn-sm btn-primary">Editar</a>
-                                    <a href="deletar_nacionalidade.php?id=<?php echo $nacionalidade['id']; ?>" class="btn btn-sm btn-danger"
+                                    <a href="../actions/nacionalidade/nacionalidade_delete.php?id=<?php echo $nacionalidade['id']; ?>" class="btn btn-sm btn-danger"
                                         onclick="return confirm('Tem certeza que deseja deletar esta nacionalidade?');">Deletar</a>
                                 </td>
                             </tr>
