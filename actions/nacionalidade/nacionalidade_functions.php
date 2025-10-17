@@ -9,7 +9,8 @@ function getAllNacionalidades()
 {
     global $conn;
     $query = "SELECT * FROM nacionalidades";
-    return $conn->query($query);
+    $nacionalidades = $conn->query($query);
+    return $nacionalidades->fetch_all(MYSQLI_ASSOC);
 }
 
 function getNacionalidadeById($id)

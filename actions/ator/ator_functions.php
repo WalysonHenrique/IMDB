@@ -9,7 +9,8 @@ function getAllAtores()
 {
     global $conn;
     $query = "SELECT a.*, n.nome as nacionalidade FROM atores a JOIN nacionalidades n ON a.nacionalidadeID = n.id";
-    return $conn->query($query);
+    $atores = $conn->query($query);
+    return $atores->fetch_all(MYSQLI_ASSOC);
 }
 
 function getAtorById($id)

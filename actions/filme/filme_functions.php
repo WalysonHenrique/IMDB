@@ -9,7 +9,8 @@ function getAllFilmes()
 {
     global $conn;
     $query = "SELECT * FROM filmes";
-    return $conn->query($query);
+    $filmes = $conn->query($query);
+    return $filmes->fetch_all(MYSQLI_ASSOC);
 }
 
 function getFilmeById($id)

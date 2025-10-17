@@ -4,24 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Bem-vindo ao IMDB</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/css/reset.css">
     <style>
         .cards-wrapper {
             display: flex;
             justify-content: center;
         }
 
-        .card img {
-            max-width: 100%;
-            max-height: 100%;
+        .card {
+            margin: 0 0.5em;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(22, 22, 26, 0.15);
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+            min-width: 260px;
+            max-width: 320px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(22, 22, 26, 0.22);
+        }
+
+        .card-img-top {
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .card-body {
+            padding: 1.2em;
+        }
+
+        .badge-categoria {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #ffc107;
+            color: #222;
+            font-size: 0.85em;
+            padding: 0.4em 0.8em;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(22, 22, 26, 0.12);
         }
 
         .card {
-            margin: 0 0.5em;
-            box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-            border: none;
-            border-radius: 0;
+            position: relative;
         }
 
         .carousel-inner {
@@ -50,116 +88,86 @@
     <?php
     include_once '../partials/header.php';
     ?>
-    <div class="container">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="cards-wrapper">
-                        <div class="card">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
+
+    <?php
+    include_once '../actions/filme/filme_functions.php';
+    require_once __DIR__ . '/../actions/categoria/categoria_functions.php';
+    $filmes = getAllFilmes();
+
+    $categorias = getAllCategorias();
+
+    $filmesPorCategoria = [];
+    foreach ($categorias as $categoria) {
+        $filmesPorCategoria[$categoria['id']] = [];
+    }
+    foreach ($filmes as $filme) {
+        if (isset($filmesPorCategoria[$filme['categoriaID']])) {
+            $filmesPorCategoria[$filme['categoriaID']][] = $filme;
+        }
+    }
+    ?>
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Filmes por Categoria</h2>
+        <?php
+        if (count($filmes) === 0):
+            echo "
+            <div class='d-flex justify-content-center align-items-center alert alert-warning' role='alert'>
+                <p class='text-center'>Nenhum filme encontrado.</p>
+            </div>";
+        else:
+            foreach ($categorias as $categoria): ?>
+                <?php if (count($filmesPorCategoria[$categoria['id']]) > 0): ?>
+                    <h3 class="mt-5 mb-3 text-primary"><?= htmlspecialchars($categoria['nome']) ?></h3>
+                    <div id="carouselCategoria<?= $categoria['id'] ?>" class="carousel slide mb-4" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <?php
+                            $filmesCat = $filmesPorCategoria[$categoria['id']];
+                            $chunks = array_chunk($filmesCat, 3);
+
+                            foreach ($chunks as $i => $grupoFilmes):
+                                ?>
+                                <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
+                                    <div class="cards-wrapper">
+                                        <?php foreach ($grupoFilmes as $filme): ?>
+                                            <div class="card">
+                                                <span class="badge-categoria"><?= htmlspecialchars($categoria['nome']) ?></span>
+                                                <img src="../assets/img/logo_padrao.png" width="100%" height="180" class="card-img-top"
+                                                    alt="<?= htmlspecialchars($filme['titulo']) ?>">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?= htmlspecialchars($filme['titulo']) ?></h5>
+                                                    <p class="card-text">Ano:
+                                                        <?= htmlspecialchars(date('Y', strtotime($filme['anoLancamento']))) ?>
+                                                    </p>
+                                                    <a href="#" class="btn btn-primary w-100">Ver detalhes</a>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <div class="card d-none d-md-block">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                        <div class="card d-none d-md-block">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
+                        <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselCategoria<?= $categoria['id'] ?>" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselCategoria<?= $categoria['id'] ?>" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Próximo</span>
+                        </button>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="cards-wrapper">
-                        <div class="card">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                        <div class="card d-none d-md-block">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                        <div class="card d-none d-md-block">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="cards-wrapper">
-                        <div class="card">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                        <div class="card d-none d-md-block">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                        <div class="card d-none d-md-block">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
+
     <?php
     include_once '../partials/footer.php';
     ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
