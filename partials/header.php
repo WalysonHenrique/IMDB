@@ -11,19 +11,19 @@
                     <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="filmes.php">Filmes</a>
+                    <a class="nav-link" href="../pages/filmes.php">Filmes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categorias.php">Categorias</a>
+                    <a class="nav-link" href="../pages/categorias.php">Categorias</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="nacionalidades.php">Nacionalidades</a>
+                    <a class="nav-link" href="../pages/nacionalidades.php">Nacionalidades</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="idioma.php">Idiomas</a>
+                    <a class="nav-link" href="../pages/idiomas.php">Idiomas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ator.php">Atores</a>
+                    <a class="nav-link" href="../pages/atores.php">Atores</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
