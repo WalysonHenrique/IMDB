@@ -13,6 +13,34 @@
 
 <body>
     <?php include_once '../partials/header.php'; ?>
+    <?php
+    if (isset($_GET['msg'])) {
+        $msg = $_GET['msg'];
+    } else {
+        $msg = '';
+    }
+    ?>
+
+    <?php if ($msg == 'criado'): ?>
+        <div class="alert alert-success" role="alert">
+            Categoria criada com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if ($msg == 'atualizado'): ?>
+        <div class="alert alert-success" role="alert">
+            Categoria atualizada com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if ($msg == 'deletado'): ?>
+        <div class="alert alert-success" role="alert">
+            Categoria deletada com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if ($msg == 'erro'): ?>
+        <div class="alert alert-danger" role="alert">
+            Ocorreu um erro ao criar a categoria.
+        </div>
+    <?php endif; ?>
 
     <?php
     require_once __DIR__ . '/../actions/categoria/categoria_functions.php';
@@ -24,7 +52,7 @@
         <p>Gerencie as categorias dos filmes aqui.</p>
 
         <div class="content mt-3">
-            <button onclick="location.href='adicionar_categoria.php'" class="btn btn-success mb-3">Adicionar
+            <button onclick="location.href='adicionar_categorias.php'" class="btn btn-success mb-3">Adicionar
                 Categoria</button>
             <table id="categoriasTable" class="table table-striped">
                 <thead>
@@ -40,7 +68,7 @@
                             <td><?php echo htmlspecialchars($categoria['id']); ?></td>
                             <td><?php echo htmlspecialchars($categoria['nome']); ?></td>
                             <td>
-                                <a href="editar_categoria.php?id=<?php echo $categoria['id']; ?>"
+                                <a href="atualizar_categorias.php?id=<?php echo $categoria['id']; ?>"
                                     class="btn btn-sm btn-primary">Editar</a>
                                 <form action="../actions/categoria/categoria_delete.php" method="POST"
                                     style="display:inline;"

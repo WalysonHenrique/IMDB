@@ -9,7 +9,8 @@ function getAllCategorias()
 {
     global $conn;
     $query = "SELECT * FROM categorias";
-    return $conn->query($query);
+    $categorias = $conn->query($query);
+    return $categorias->fetch_all(MYSQLI_ASSOC);
 }
 
 function getCategoriaById($id)
@@ -19,7 +20,7 @@ function getCategoriaById($id)
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
-    return $stmt->get_result();
+    return $stmt->get_result()->fetch_assoc();
 }
 
 function createCategoria($nome)

@@ -9,7 +9,8 @@ function getAllIdiomas()
 {
     global $conn;
     $query = "SELECT * FROM idiomas";
-    return $conn->query($query);
+    $idiomas = $conn->query($query);
+    return $idiomas->fetch_all(MYSQLI_ASSOC);
 }
 
 function getIdiomaById($id)
