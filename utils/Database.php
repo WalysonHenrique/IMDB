@@ -1,23 +1,22 @@
 <?php
 
-namespace Utils;
+$DB_SERVER = "localhost";
+$DB_USER = "root";
+$DB_PASSWORD = "root";
+$DB_DATABASE = "imdb";
 
-class Database{
-    private static $SERVER = 'localhost';
-    private static $USER = 'root';
-    private static $PASSWORD = 'rootroot'; //Mudar o password
-    private static $DATABASE = 'imdb';
-    private static $conn = null;
-    
+$conn = null;
 
-    public static function getConn(){
-        if (self::$conn === null) {
-            self::$conn = mysqli_connect(self::$SERVER, self::$USER, self::$PASSWORD, self::$DATABASE);
+function getConn()
+{
+    global $conn, $DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_DATABASE;
+    if ($conn === null) {
+        $conn = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
-        return self::$conn;
     }
-
-
+    return $conn;
 }
 
 
