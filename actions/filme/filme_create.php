@@ -9,11 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idioma_id = $_POST['idioma_id'] ?? '';
     $classificacao_indicativa = $_POST['classificacao_indicativa'] ?? '';
     $nacionalidade_id = $_POST['nacionalidade_id'] ?? null;
+    $elenco = $_POST['elenco'] ?? [];
 
-    if (createFilme($titulo, $descricao, $ano_lancamento, $categoria_id, $idioma_id, $classificacao_indicativa, $nacionalidade_id)) {
-        header('Location: ../filmes.php?msg=criado');
+    if (createFilme($titulo, $descricao, $ano_lancamento, $categoria_id, $idioma_id, $classificacao_indicativa, $nacionalidade_id, $elenco)) {
+        header('Location: ../../pages/filmes.php?msg=criado');
     } else {
-        header('Location: ../filmes.php?msg=erro');
+        header('Location: ../../pages/filmes.php?msg=erro');
     }
     exit;
 }

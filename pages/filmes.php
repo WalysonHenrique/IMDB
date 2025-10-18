@@ -15,6 +15,33 @@
     <?php
     include_once '../partials/header.php';
     ?>
+    <?php
+    if (isset($_GET['msg'])) {
+        $msg = $_GET['msg'];
+    } else {
+        $msg = '';
+    }
+    ?>
+    <?php if ($msg == 'criado'): ?>
+        <div class="alert alert-success" role="alert">
+            Filme criado com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if ($msg == 'atualizado'): ?>
+        <div class="alert alert-success" role="alert">
+            Filme atualizado com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if ($msg == 'deletado'): ?>
+        <div class="alert alert-success" role="alert">
+            Filme deletado com sucesso!
+        </div>
+    <?php endif; ?>
+    <?php if ($msg == 'erro'): ?>
+        <div class="alert alert-danger" role="alert">
+            Ocorreu um erro ao criar o filme.
+        </div>
+    <?php endif; ?>
 
     <?php
     require_once __DIR__ . '/../actions/filme/filme_functions.php';
@@ -26,7 +53,7 @@
         <p>Gerencie os filmes cadastrados aqui.</p>
 
         <div class="content mt-3">
-            <button onclick="location.href='adicionar_filme.php'" class="btn btn-success mb-3">Adicionar Filme</button>
+            <a href="adicionar_filme.php" class="btn btn-success mb-3">Adicionar Filme</a>
             <table id="filmesTable" class="table table-striped">
                 <thead>
                     <tr class="table-dark">
@@ -45,7 +72,7 @@
                             <td><?php echo htmlspecialchars($filme['ano']); ?></td>
                             <td><?php echo htmlspecialchars($filme['categoria_nome'] ?? ''); ?></td>
                             <td>
-                                <a href="editar_filme.php?id=<?php echo $filme['id']; ?>"
+                                <a href="atualizar_filme.php?id=<?php echo $filme['id']; ?>"
                                     class="btn btn-sm btn-primary">Editar</a>
                                 <form action="../actions/filme/filme_delete.php" method="POST" style="display:inline;"
                                     onsubmit="return confirm('Tem certeza que deseja deletar este filme?');">
@@ -72,9 +99,7 @@
     <script>
         $(document).ready(function () {
             $('#filmesTable').DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json'
-                }
+
             });
         });
     </script>
