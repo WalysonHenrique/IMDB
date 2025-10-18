@@ -45,7 +45,8 @@
             </div>
             <div class="mb-3">
                 <label for="ano_lancamento" class="form-label">Ano de Lançamento</label>
-                <input type="date" id="ano_lancamento" name="ano_lancamento" class="form-control" required>
+                <input type="number" id="ano_lancamento" name="ano_lancamento" class="form-control" min="1000"
+                    max="2025" required>
             </div>
             <div class="mb-3">
                 <label for="classificacao" class="form-label">Classificação Indicativa</label>

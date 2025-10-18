@@ -23,10 +23,24 @@
     require_once '../actions/idioma/idioma_functions.php';
     require_once __DIR__ . '/../actions/categoria/categoria_functions.php';
     require_once __DIR__ . '/../actions/ator/ator_functions.php';
+    require_once __DIR__ . '/../actions/filme/filme_functions.php';
     $categorias = getAllCategorias();
     $idiomas = getAllIdiomas();
     $nacionalidades = getAllNacionalidades();
     $atores = getAllAtores();
+
+    $filme = getFilmeById($_GET['id']);
+
+    global $conn;
+    $elenco_ids = [];
+    $stmt = $conn->prepare("SELECT atorID FROM filme_has_ator WHERE filmeID = ?");
+    $stmt->bind_param("i", $_GET['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $elenco_ids[] = $row['atorID'];
+    }
+    $stmt->close();
     ?>
 
     <div class="container mt-5 mb-5">
@@ -48,38 +62,47 @@
             </div>
             <div class="mb-3">
                 <label for="ano_lancamento" class="form-label">Ano de Lançamento</label>
-                <input type="date" id="ano_lancamento" name="ano_lancamento" class="form-control"
-                    value="<?php echo htmlspecialchars($filme['anoLancamento']); ?>" required>
+                <input type="number" id="ano_lancamento" min="1000" max="2025" name="ano_lancamento"
+                    class="form-control" value="<?php echo htmlspecialchars($filme['anoLancamento']); ?>" required>
             </div>
             <div class="mb-3">
                 <label for="classificacao" class="form-label">Classificação Indicativa</label>
-                <input type="number" id="classificacao" name="classificacao" class="form-control"
+                <input type="number" id="classificacao" name="classificacao_indicativa" class="form-control"
                     value="<?php echo htmlspecialchars($filme['classificacao']); ?>" maxlength="10" required>
             </div>
             <div class="mb-3">
                 <label for="categoria_id" class="form-label">Categoria</label>
-                <select name="categoriaID" id="categoriaID" class="form-select" required>
+                <select name="categoria_id" id="categoria_id" class="form-select" required>
                     <option value="">Selecione</option>
                     <?php foreach ($categorias as $categoria): ?>
-                        <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['nome']; ?></option>
+                        <option value="<?php echo $categoria['id']; ?>" <?php if ($filme['categoriaID'] == $categoria['id'])
+                               echo 'selected'; ?>>
+                            <?php echo $categoria['nome']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="nacionalidade" class="form-label">Nacionalidade</label>
-                <select name="nacionalidadeID" id="nacionalidadeID" class="form-select" required>
+                <label for="nacionalidade_id" class="form-label">Nacionalidade</label>
+                <select name="nacionalidade_id" id="nacionalidade_id" class="form-select" required>
                     <option value="">Selecione</option>
                     <?php foreach ($nacionalidades as $nacionalidade): ?>
-                        <option value="<?php echo $nacionalidade['id']; ?>"><?php echo $nacionalidade['nome']; ?></option>
+                        <option value="<?php echo $nacionalidade['id']; ?>" <?php if ($filme['nacionalidadeID'] == $nacionalidade['id'])
+                               echo 'selected'; ?>>
+                            <?php echo $nacionalidade['nome']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="idioma" class="form-label">Idioma</label>
-                <select name="idiomaID" id="idiomaID" class="form-select" required>
+                <label for="idioma_id" class="form-label">Idioma</label>
+                <select name="idioma_id" id="idioma_id" class="form-select" required>
                     <option value="">Selecione</option>
                     <?php foreach ($idiomas as $idioma): ?>
-                        <option value="<?php echo $idioma['id']; ?>"><?php echo $idioma['nome']; ?></option>
+                        <option value="<?php echo $idioma['id']; ?>" <?php if ($filme['idiomaID'] == $idioma['id'])
+                               echo 'selected'; ?>>
+                            <?php echo $idioma['nome']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -87,12 +110,15 @@
                 <label for="elenco" class="form-label">Elenco</label>
                 <select name="elenco[]" id="elenco" class="form-select" multiple required>
                     <?php foreach ($atores as $ator): ?>
-                        <option value="<?php echo $ator['id']; ?>"><?php echo $ator['nome']; ?></option>
+                        <option value="<?php echo $ator['id']; ?>" <?php if (in_array($ator['id'], $elenco_ids))
+                               echo 'selected'; ?>>
+                            <?php echo $ator['nome']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <button type="submit" class="btn btn-success">Salvar</button>
-            <a href="./atores.php" class="btn btn-secondary ms-2">Cancelar</a>
+            <a href="./filmes.php" class="btn btn-secondary ms-2">Cancelar</a>
         </form>
     </div>
 
